@@ -35,7 +35,7 @@ import re
 import inspect
 
 # CloudGenix SDK should have been checked present by other imports.
-from cloudgenix import jdout, jdout_detailed
+from cloudgenix import jdout_detailed
 
 from .default_interfaces import *
 
@@ -404,7 +404,7 @@ def extract_items(resp_object, error_label=None, id_key='id'):
             throw_error("Unable to cache {0}.".format(error_label), resp_object)
             return [], []
         else:
-            throw_error("Unable to cache response.".format(error_label), resp_object)
+            throw_error("Unable to cache response.".format(), resp_object)
             return [], []
 
 
@@ -700,7 +700,7 @@ def use_sdk_yaml_version(tgt_dict, query, sdk_func, default=None, sdk_or_yaml='s
             for idx, splitkey in enumerate(matching_entry_split):
                 if len(splitkey) <= 1:
                     # no api version in string.
-                    throw_error("No API version in {0} config.".format(query, api_version))
+                    throw_error("No API version in {0} config.".format(query, ))
                 else:
                     # check if API version string matches the current SDK config.
                     if splitkey[1] == api_version:

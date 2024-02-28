@@ -29,7 +29,6 @@ MIT
  * Get help and additional CloudGenix Documentation at <http://support.cloudgenix.com>
 
 """
-import requests
 import yaml
 import json
 import logging
@@ -5022,7 +5021,7 @@ def get_pppoe_id(config_pppoe_interface, interfaces_cache, interfaces_n2id, conf
     # This is because in the create section, the interface will be created
     # Changes for CON-95
     if parent_if_id is None:
-        if not parent_if_name in config_interfaces.keys():
+        if parent_if_name not in config_interfaces.keys():
             throw_error("PPPoE Interface {0} config is missing 'parent': ".format(config_pppoe_interface.get('name')),
                     config_pppoe_interface)
     for interface in interfaces_cache:
@@ -5053,7 +5052,7 @@ def get_subif_id(config_subif_interface, interfaces_cache, interfaces_n2id, conf
     # This is because in the create section, the interface will be created
     # Changes for CON-95
     if parent_if_id is None:
-        if not parent_if_name in config_interfaces.keys():
+        if parent_if_name not in config_interfaces.keys():
             throw_error("Subinterface {0} config is missing 'parent': ".format(config_subif_interface.get('name')),
                     config_subif_interface)
 
@@ -12006,7 +12005,7 @@ def do_site(loaded_config, destroy, declaim=False, passed_sdk=None, passed_timeo
                                             sb["service_bindings"] = [item]
                                             put_sb_resp = sdk.put.servicebindingmaps(servicebindingmap_id=sb["id"], data=sb)
                                             if not put_sb_resp.cgx_status:
-                                                throw_error("Could not unbind serviceendpoint {0} from servicebinding map {0}".format(service_ep["name"], sb["name"]), put_sb_resp.cgx_content)
+                                                throw_error("Could not unbind serviceendpoint {0} from servicebinding map {0}".format(service_ep["name"], ), put_sb_resp.cgx_content)
 
                     del_sep_resp = sdk.delete.serviceendpoints(service_ep_id)
                     if not del_sep_resp.cgx_status:
@@ -12131,7 +12130,7 @@ def go():
     declaim = args['declaim']
     config_file = args['Config File'][0]
     apiversion = str(args['apiversion']).lower()
-    if not apiversion in ('sdk', 'yaml', 'yml'):
+    if apiversion not in ('sdk', 'yaml', 'yml'):
         throw_error("Incorrect apiversion value. Allowed values are 'SDK, YAML, YML'")
     # load config file
     with open(config_file, 'r') as datafile:
